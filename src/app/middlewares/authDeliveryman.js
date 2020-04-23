@@ -4,7 +4,7 @@ import { promisify } from 'util';
 
 import authConfig from '../../config/auth';
 
-export default async (req, res, next) => {
+async function deliveryman(req, res, next) {
   // Recuperando o token
   const authHeaders = req.headers.authorization;
   if (!authHeaders) {
@@ -12,12 +12,15 @@ export default async (req, res, next) => {
   }
   // o token por padrão é enviado assim "bearer b5yhffryjkggnhtt579jr"
   const [, token] = authHeaders.split(' ');
+  console.log('aq');
 
   try {
     const decoded = await promisify(jwt.verify)(token, authConfig.secret);
-    req.userId = decoded.id;
+    req.deliverymanId = decoded.id;
     return next();
   } catch (err) {
     return res.status(401).json({ error: 'Token invalid' });
   }
-};
+}
+
+export default deliveryman;
