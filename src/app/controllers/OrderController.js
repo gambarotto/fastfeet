@@ -4,6 +4,9 @@ import Recipient from '../models/Recipient';
 import Order from '../models/Order';
 import File from '../models/File';
 import Signature from '../models/Signature';
+import Notification from '../schemas/Notification';
+import NewOrderMail from '../jobs/NewOrderMail';
+import Queue from '../../lib/Queue';
 
 class OrderController {
   async index(req, res) {
@@ -62,7 +65,22 @@ class OrderController {
       product,
     });
 
-    return res.json(order);
+    const nOrder = await Order.findByPk(order.id, {
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+        },
+      ],
+    });
+    await Notification.create({
+      content: `Nova emcomenda para você ${deliveryman.name}, id: ${order.id}, local: ${recipient_id}, produto: ${product}`,
+      deliveryman: deliveryman_id,
+    });
+
+    await Queue.add(NewOrderMail.key, { nOrder, deliveryman });
+
+    return res.json(nOrder);
   }
 
   async update(req, res) {

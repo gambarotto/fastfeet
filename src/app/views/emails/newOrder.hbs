@@ -1,0 +1,17 @@
+<strong>Olá, {{ deliveryman }}</strong>
+<p>Hà um nova entrega para você, confira os detalhes abaixo:</p>
+<p>
+  <strong>Produto: </strong> {{ product }} <br />
+  <strong>Rua: </strong> {{ address.street }} <br/>
+  <strong>Numero: </strong> {{ address.number }} <br />
+  <strong>Complemento: </strong> {{ address.complement }} <br />
+  <strong>Estado: </strong> {{ address.state }} <br />
+  <strong>Cidade: </strong> {{ address.city }} <br />
+  <strong>CEP: </strong> {{ address.zip_code }} <br />
+{{!--   <strong>Data: </strong> {{ date }} <br /> --}}
+  <br />
+  <small>
+    Produto já está disponível para a retirada.<br />
+    Assim que possível, retirar a encomenda
+  </small>
+</p>

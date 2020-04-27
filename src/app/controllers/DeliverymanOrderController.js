@@ -10,6 +10,7 @@ import {
   format,
   parseISO,
 } from 'date-fns';
+import Notification from '../schemas/Notification';
 import Deliveryman from '../models/Deliveryman';
 import Order from '../models/Order';
 import Signature from '../models/Signature';
@@ -94,9 +95,14 @@ class DeliverymanOrderController {
     }
 
     order.start_at = req.body.start_at;
-    // await order.save();
+    await order.save();
+    const notification = await Notification.findOneAndUpdate(
+      req.params.id,
+      { read: true },
+      { new: true }
+    );
 
-    return res.json(hours);
+    return res.json(order);
   }
 
   async end(req, res) {
