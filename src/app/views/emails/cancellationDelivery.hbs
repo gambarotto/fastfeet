@@ -1,0 +1,15 @@
+<strong>Olá, {{ deliveryman }}</strong>
+<p>Entrega da encomenda {{ order.id }} foi cancelada!, confira os detalhes abaixo:</p>
+<p>
+  <h1>{{ order.product }}</h1>
+  <strong>Rua: </strong> {{ order.address.street }} <br />
+  <strong>Numero: </strong> {{ order.address.number }} <br />
+  <strong>Complemento: </strong> {{ order.address.complement }} <br />
+  <strong>Estado: </strong> {{ order.address.state }} <br />
+  <strong>Cidade: </strong> {{ order.address.city }} <br />
+  <strong>CEP: </strong> {{ order.address.zip_code }} <br />
+  {{!--   <strong>Data: </strong> {{ date }} <br /> --}}
+  <br />
+  <h2>Descrição do Problema</h2>
+    {{ problem.description }}
+</p>

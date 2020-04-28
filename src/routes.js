@@ -10,6 +10,7 @@ import DeliverymanController from './app/controllers/DeliverymanController';
 import SignatureController from './app/controllers/SignatureController';
 import OrderController from './app/controllers/OrderController';
 import DeliverymanOrderController from './app/controllers/DeliverymanOrderController';
+import DeliveryProblemsController from './app/controllers/DeliveryProblemsController';
 
 import authMiddlewareUser from './app/middlewares/authUser';
 import authMiddlewareDeliveryman from './app/middlewares/authDeliveryman';
@@ -21,7 +22,7 @@ const uploadSignatures = multer(multerConfig.signaturesConfig);
 routes.post('/sessions', SessionController.store);
 routes.post('/sessions/deliveryman', SessionController.storeDeliveryman);
 
-// routes.get('deliveryman/:id/deliveries', DeliverymanOrderController.index);
+// Deliveryman Orders ---------------
 routes.get(
   '/deliveryman/:id/deliveries',
   authMiddlewareDeliveryman,
@@ -38,6 +39,20 @@ routes.put(
   DeliverymanOrderController.end
 );
 
+// Delivery problems -----------------
+routes.post(
+  '/delivery/:id/problems',
+  authMiddlewareDeliveryman,
+  DeliveryProblemsController.store
+);
+
+routes.put(
+  '/delivery/:idDeliveryman/problem/:idDeliveryProblem',
+  authMiddlewareDeliveryman,
+  DeliveryProblemsController.upate
+);
+
+// Admin Routes -----------------------
 routes.use(authMiddlewareUser);
 routes.post('/files', uploadFiles.single('file'), FileController.store);
 routes.post(
@@ -62,4 +77,11 @@ routes.get('/orders', OrderController.index);
 routes.put('/orders/:id', OrderController.update);
 routes.delete('/orders/:id', OrderController.delete);
 
+routes.get('/delivery-problems', DeliveryProblemsController.index);
+routes.get('/delivery-problem', DeliveryProblemsController.indexOne);
+
+routes.delete(
+  '/delivery/:idDeliveryman/problem/:idDeliveryProblem/cancel-delivery',
+  DeliveryProblemsController.delete
+);
 export default routes;

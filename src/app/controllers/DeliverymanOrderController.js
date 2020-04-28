@@ -96,7 +96,7 @@ class DeliverymanOrderController {
 
     order.start_at = req.body.start_at;
     await order.save();
-    const notification = await Notification.findOneAndUpdate(
+    await Notification.findOneAndUpdate(
       req.params.id,
       { read: true },
       { new: true }
